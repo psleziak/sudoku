@@ -42,7 +42,8 @@ class SudokuSolver {
         {7,4},
         {6,6} };
 
- 
+    int rempty = 0;
+    int cempty = 0;
 
     int solutionCounter = 0; // Solution counter
 
@@ -107,13 +108,20 @@ class SudokuSolver {
 	
 	// Finds the next empty square (in "reading order").
     int[] findEmptySquare() {
-        for(int row = 0; row < SUDOKU_SIZE; row ++ ) {
-            for (int column = 0; column < SUDOKU_SIZE; column ++) {
+        for(int row = rempty; row < SUDOKU_SIZE; row ++ ) {
+            for (int column = cempty; column < SUDOKU_SIZE; column ++) {
                 if(grid[row][column] == 0) {
+                    rempty = row;
+                    cempty = column;
                     return new int[]{row,column};
                 }
             }
+
+            cempty = 0;
         }      
+
+        rempty = 0;
+
         return null;
     }
 
@@ -135,6 +143,8 @@ class SudokuSolver {
                         return;
                     } else {
                         grid[row][column] = 0;
+                        rempty = row;
+                        cempty = column;
                     }
                 }
             }
