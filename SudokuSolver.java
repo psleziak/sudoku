@@ -174,11 +174,6 @@ class SudokuSolver {
     // Print the sudoku grid.
     void print() {
 
-        if (solutionCounter > 1) {
-            System.out.println(solutionCounter); 
-            return;
-        }
-
         for (int j = 0; j < SUDOKU_SIZE; j++) {
 
             if ( j%3 == 0 ) {
@@ -219,9 +214,11 @@ class SudokuSolver {
 
         if (solutionCounter == 1) {
             copyGrid(firstSolvedGrid, grid);
-        }
+            print();
+        } else if (solutionCounter > 1) {
+            System.out.println(solutionCounter); 
+        }       
         
-        print();
     }
 
     public static void main(String[] args) {
