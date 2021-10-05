@@ -120,23 +120,21 @@ class SudokuSolver {
     // Find all solutions for the grid, and stores the final solution.
     boolean solved;
     void solve() {
-
         int [] emptyPosition = findEmptySquare();
         
-        int [] oldEmptyPosition = emptyPosition;
-      
-        
         if (emptyPosition != null) {
+            int row = emptyPosition[0];
+            int column = emptyPosition[1];
+            
             for (int d = SUDOKU_MIN_NUMBER; d <= SUDOKU_MAX_NUMBER; d++) {
-                if(!givesConflict(emptyPosition[0], emptyPosition[1], d)) {
-                    grid[emptyPosition[0]][emptyPosition[1]] = d;
+                if(!givesConflict(row, column, d)) {
+                    grid[row][column] = d;
                     solved = true;
                     solve();
                     if(solved){
                         return;
                     } else {
-                        grid[oldEmptyPosition[0]][oldEmptyPosition[1]] = 0;
-                        emptyPosition = oldEmptyPosition;
+                        grid[row][column] = 0;
                     }
                 }
             }
