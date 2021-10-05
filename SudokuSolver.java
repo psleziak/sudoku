@@ -47,6 +47,8 @@ class SudokuSolver {
 
     int solutionCounter = 0; // Solution counter
 
+    int[][] firstSolvedGrid = new int[SUDOKU_SIZE][SUDOKU_SIZE];
+
     // Is there a conflict when we fill in d at position (r, c)?
     boolean givesConflict(int r, int c, int d) {
         
@@ -125,6 +127,14 @@ class SudokuSolver {
         return null;
     }
 
+    void copyGrid(int[][] source, int[][] target) {
+        for (int row = 0; row < SUDOKU_SIZE; row++) {
+            for (int column = 0; column < SUDOKU_SIZE; column++) {
+                target[row][column] = source[row][column];
+            }
+        }
+    }
+
     // Find all solutions for the grid, and stores the final solution.
     boolean solved;
     void solve() {
@@ -149,12 +159,25 @@ class SudokuSolver {
                 }
             }
             solved = false;
-        }   
+        } else if (solved) {
+            solutionCounter++;
+
+            if (solutionCounter == 1) {
+                copyGrid(grid, firstSolvedGrid);
+            }
+            
+            solved = false;
+        }
     }
         
     
     // Print the sudoku grid.
     void print() {
+
+        if (solutionCounter > 1) {
+            System.out.println(solutionCounter); 
+            return;
+        }
 
         for (int j = 0; j < SUDOKU_SIZE; j++) {
 
@@ -193,6 +216,11 @@ class SudokuSolver {
     // Run the actual solver.
     void solveIt() {
         solve();
+
+        if (solutionCounter == 1) {
+            copyGrid(firstSolvedGrid, grid);
+        }
+        
         print();
     }
 
